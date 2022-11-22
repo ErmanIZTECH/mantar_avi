@@ -1,12 +1,14 @@
 import sys
 import requests
 from bs4 import BeautifulSoup
+from datetime import datetime
 
 if __name__ == "__main__" :
+    currentMonth = datetime.now().month
     # Collect first page of artists’ list
-    links = {'Yamanlar':'https://www.meteoblue.com/tr/hava/historyclimate/weatherarchive/yamanlar-da%c4%9f%c4%b1_t%c3%bcrkiye_297765?fcstlength=15&year=2022&month=11',
-            'Balcova':'https://www.meteoblue.com/tr/hava/historyclimate/weatherarchive/bal%c3%a7ova-baraj%c4%b1_t%c3%bcrkiye_9888632?fcstlength=15&year=2022&month=11',
-            'Kaynaklar':'https://www.meteoblue.com/tr/hava/historyclimate/weatherarchive/kurudere_t%c3%bcrkiye_305410?fcstlength=15&year=2022&month=11'}
+    links = {'Yamanlar':'https://www.meteoblue.com/tr/hava/historyclimate/weatherarchive/yamanlar-da%c4%9f%c4%b1_t%c3%bcrkiye_297765?fcstlength=15&year=2022&month='+str(currentMonth),
+            'Balcova':'https://www.meteoblue.com/tr/hava/historyclimate/weatherarchive/bal%c3%a7ova-baraj%c4%b1_t%c3%bcrkiye_9888632?fcstlength=15&year=2022&month='+str(currentMonth),
+            'Kaynaklar':'https://www.meteoblue.com/tr/hava/historyclimate/weatherarchive/kurudere_t%c3%bcrkiye_305410?fcstlength=15&year=2022&month='+str(currentMonth)}
     for il in links.keys():
         page = requests.get(links[il])
         # Create a BeautifulSoup object
