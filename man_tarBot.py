@@ -10,7 +10,8 @@ if __name__ == "__main__" :
     
 
     last15daysReport() 
-    updater = Updater("API CODE!!!", 
+    bot_api = open('botapi.txt','rb')
+    updater = Updater(bot_api, 
                     use_context=True)
 
     def start(update: Update, context: CallbackContext):
