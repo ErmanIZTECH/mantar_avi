@@ -1,0 +1,4 @@
+.vs*
+botapi.txt
+*.png
+__pycache__
