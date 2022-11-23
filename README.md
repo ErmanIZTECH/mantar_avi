@@ -4,6 +4,7 @@ This project aims to create a tool to help finding mushrooms on past weather dat
 
 
 ## Developers
+- Mavrikant
 - Erman Olcay
 - Baris
 
