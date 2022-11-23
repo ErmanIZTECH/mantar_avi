@@ -3,7 +3,7 @@ import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
 
-if __name__ == "__main__" :
+class last15daysReport():
     currentMonth = datetime.now().month
     currentYear = datetime.now().year
     # Collect first page of artists’ list
@@ -28,6 +28,9 @@ if __name__ == "__main__" :
 
         # for link in soup.find_all('a'):
         #     print(link.get('href'))
+
+if __name__ == "__main__" :
+    last15daysReport()
 
 
 
