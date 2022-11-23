@@ -1,3 +1,9 @@
-# HELLO 
+# MANTAR 🍄 AVI 
 This project aims to create a tool to help finding mushrooms on past weather data
-baris was here
+
+
+
+## Developers
+- Erman Olcay
+- Baris
+
