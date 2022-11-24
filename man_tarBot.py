@@ -40,6 +40,7 @@ if __name__ == "__main__":
             photo=open("image_Kaynaklar.png", "rb"),
             caption="Kaynaklar bölgesi son 15 günün yağış bilgisi",
         )
+
     def kizilcahamam(update: Update, context: CallbackContext):
         update.message.reply_photo(
             photo=open("image_Kizilcahamam.png", "rb"),
