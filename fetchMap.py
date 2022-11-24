@@ -14,13 +14,15 @@ yEnd = 25193
 fullImg = ""
 for y in range(yStart, yEnd):
     for x in range(xStart, xEnd):
-        link = base + str(layer) + '/' + str(y) + '/' + str(x)
-        imgData = np.array(Image.open(BytesIO(requests.get(link).content)).convert('RGB'))
+        link = base + str(layer) + "/" + str(y) + "/" + str(x)
+        imgData = np.array(
+            Image.open(BytesIO(requests.get(link).content)).convert("RGB")
+        )
         fullImg = np.concatenate((fullImg, imgData), axis=0)
 
 out = Image.fromarray(fullImg)
 out.show()
-  
+
 # img.show()
 
 # #out = np.concatenate((npimg, npimg2), axis=1)
