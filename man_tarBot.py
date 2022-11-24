@@ -2,15 +2,10 @@ from telegram.ext.updater import Updater
 from telegram.update import Update
 from telegram.ext.callbackcontext import CallbackContext
 from telegram.ext.commandhandler import CommandHandler
-from telegram.ext.messagehandler import MessageHandler
-from telegram.ext.filters import Filters
-import main
 
 if __name__ == "__main__":
-    apiFile = open("botapi.txt", "r")
-    api = apiFile.read()
+    api = open("botapi.txt", "r").read()
     updater = Updater(api, use_context=True)
-    # main.last15daysReport()
 
     def start(update: Update, context: CallbackContext):
         update.message.reply_text(
@@ -23,8 +18,9 @@ if __name__ == "__main__":
             "/start : Genel bilgilendirme mesajını gösterir.\n"
             + "/help : Komutları listeler.\n"
             + "/yamanlar : Yamanlar bölgesi 15 günlük raporu.\n"
-            + "/balcova : balcova bölgesi 15 günlük raporu.\n"
-            + "/kaynaklar : kaynaklar bölgesi 15 günlük raporu.\n"
+            + "/balçova : Balçova bölgesi 15 günlük raporu.\n"
+            + "/kaynaklar : Kaynaklar bölgesi 15 günlük raporu.\n"
+            + "/kızılcahamam  : Kızılcahamam bölgesi 15 günlük raporu.\n"
         )
 
     def yamanlar(update: Update, context: CallbackContext):
@@ -44,11 +40,17 @@ if __name__ == "__main__":
             photo=open("image_Kaynaklar.png", "rb"),
             caption="Kaynaklar bölgesi son 15 günün yağış bilgisi",
         )
+    def kizilcahamam(update: Update, context: CallbackContext):
+        update.message.reply_photo(
+            photo=open("image_Kizilcahamam.png", "rb"),
+            caption="Kızılcahamam bölgesi son 15 günün yağış bilgisi",
+        )
 
     updater.dispatcher.add_handler(CommandHandler("start", start))
     updater.dispatcher.add_handler(CommandHandler("help", help))
     updater.dispatcher.add_handler(CommandHandler("yamanlar", yamanlar))
     updater.dispatcher.add_handler(CommandHandler("balcova", balcova))
     updater.dispatcher.add_handler(CommandHandler("kaynaklar", kaynaklar))
+    updater.dispatcher.add_handler(CommandHandler("kızılcahamam", kizilcahamam))
 
     updater.start_polling()

@@ -2,7 +2,6 @@ import requests
 from PIL import Image
 from io import BytesIO
 import numpy as np
-from numpy_da import DynamicArray
 
 base = "https://cbs.ogm.gov.tr/arcgis/rest/services/YAYIN/ARAZI_ORTUSU/MapServer/tile/"
 layer = 16
@@ -22,10 +21,3 @@ for y in range(yStart, yEnd):
 
 out = Image.fromarray(fullImg)
 out.show()
-
-# img.show()
-
-# #out = np.concatenate((npimg, npimg2), axis=1)
-# im = Image.fromarray(npimg)
-# im = im.convert('RGB')
-# im.save("your_file.png")
