@@ -21,21 +21,20 @@ if __name__ == "__main__":
         """Usage: /put value"""
         # Generate ID and separate value from command
         # We don't use context.args here, because the value may contain whitespaces
-        value = update.message.text.partition(' ')[2]
+        value = update.message.text.partition(" ")[2]
 
-        coordN = round(float(value.split()[0][0:7]),3)
-        coordE = round(float(value.split()[1][0:7]),3)
-        update.message.reply_text('Coordinates are: '+str([coordN, coordE]))
-        main.getcoordinates(coordN,coordE)
+        coordN = round(float(value.split()[0][0:7]), 3)
+        coordE = round(float(value.split()[1][0:7]), 3)
+        update.message.reply_text("Coordinates are: " + str([coordN, coordE]))
+        main.getcoordinates(coordN, coordE)
         update.message.reply_photo(photo=open("coordinate_image.png", "rb"))
-
 
     def put(update, context):
         """Usage: /put value"""
         # Generate ID and separate value from command
         key = str(uuid4())
         # We don't use context.args here, because the value may contain whitespaces
-        value = update.message.text.partition(' ')[2]
+        value = update.message.text.partition(" ")[2]
 
         # Store value
         context.user_data[key] = value
@@ -48,7 +47,7 @@ if __name__ == "__main__":
         key = context.args[0]
 
         # Load value and send it to the user
-        value = context.user_data.get(key, 'Not found')
+        value = context.user_data.get(key, "Not found")
         update.message.reply_text(value)
 
     def help(update: Update, context: CallbackContext):
@@ -89,10 +88,9 @@ if __name__ == "__main__":
         user_location = update.message.location
         user_location.latitude
         user_location.longitude
-        print(user_location.longitude,user_location.latitude)
-        main.getcoordinates(user_location.latitude,user_location.longitude)
+        print(user_location.longitude, user_location.latitude)
+        main.getcoordinates(user_location.latitude, user_location.longitude)
         update.message.reply_photo(photo=open("coordinate_image.png", "rb"))
-        
 
     updater.dispatcher.add_handler(CommandHandler("start", start))
     updater.dispatcher.add_handler(CommandHandler("help", help))
@@ -100,9 +98,9 @@ if __name__ == "__main__":
     updater.dispatcher.add_handler(CommandHandler("balcova", balcova))
     updater.dispatcher.add_handler(CommandHandler("kaynaklar", kaynaklar))
     updater.dispatcher.add_handler(CommandHandler("kizilcahamam", kizilcahamam))
-    updater.dispatcher.add_handler(CommandHandler('put', put))
-    updater.dispatcher.add_handler(CommandHandler('get', get))
-    updater.dispatcher.add_handler(CommandHandler('coord', coord))
+    updater.dispatcher.add_handler(CommandHandler("put", put))
+    updater.dispatcher.add_handler(CommandHandler("get", get))
+    updater.dispatcher.add_handler(CommandHandler("coord", coord))
     location_handler = MessageHandler(Filters.location, location)
     updater.dispatcher.add_handler(location_handler)
 
