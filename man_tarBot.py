@@ -17,7 +17,7 @@ if __name__ == "__main__":
             + "Komuları görmek için /help komutunu kullanın."
         )
 
-    def coord(update):
+    def coord(update, context):
         """Usage: /put value"""
         # Generate ID and separate value from command
         # We don't use context.args here, because the value may contain whitespaces
@@ -86,10 +86,10 @@ if __name__ == "__main__":
 
     def location(update, context):
         user_location = update.message.location
-        user_location.latitude
-        user_location.longitude
-        print(user_location.longitude, user_location.latitude)
-        main.getcoordinates(user_location.latitude, user_location.longitude)
+        lat=round(float(user_location.latitude), 3)
+        lon=round(float(user_location.longitude), 3)
+        update.message.reply_text("Coordinates are: " + str([lat, lon]))
+        main.getcoordinates(lat, lon)
         update.message.reply_photo(photo=open("coordinate_image.png", "rb"))
 
     updater.dispatcher.add_handler(CommandHandler("start", start))
@@ -101,7 +101,6 @@ if __name__ == "__main__":
     updater.dispatcher.add_handler(CommandHandler("put", put))
     updater.dispatcher.add_handler(CommandHandler("get", get))
     updater.dispatcher.add_handler(CommandHandler("coord", coord))
-    location_handler = MessageHandler(Filters.location, location)
-    updater.dispatcher.add_handler(location_handler)
+    updater.dispatcher.add_handler(MessageHandler(Filters.location, location))
 
     updater.start_polling()
