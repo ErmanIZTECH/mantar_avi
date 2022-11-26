@@ -54,6 +54,9 @@ if __name__ == "__main__":
         update.message.reply_text(
             "/start : Genel bilgilendirme mesajını gösterir.\n"
             + "/help : Komutları listeler.\n"
+            + "15 günlük meteorolojik raporunu almak istediğiniz lokasyonu direkt gönderin.\n"
+            + "/coord verilen koordinatların raporu. [örn: /coord 35.1234 27.2134]\n"
+            + "veya halihazırdaki preset edilmiş lokasyonları aşağıdaki komutla çalıştırın.\n"
             + "/yamanlar : Yamanlar bölgesi 15 günlük raporu.\n"
             + "/balcova : Balçova bölgesi 15 günlük raporu.\n"
             + "/kaynaklar : Kaynaklar bölgesi 15 günlük raporu.\n"
