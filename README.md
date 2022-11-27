@@ -8,6 +8,6 @@ https://app.codacy.com/gh/ErmanIZTECH/mantar_avi/issues/index
 
 ## Developers
 
-- Erman Olcay
-- M. Serdar Karaman
-- Barış Doğa Yavaş
+  - Erman Olcay
+  - M. Serdar Karaman
+  - Barış Doğa Yavaş
