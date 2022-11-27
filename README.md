@@ -1,7 +1,10 @@
 [![Python 3.11](https://img.shields.io/badge/python-3.11-blue.svg)](https://www.python.org/downloads/release/python-270/) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/ErmanIZTECH/mantar_avi?color=green)](https://github.com/ErmanIZTECH/mantar_avi) [![Open issues on GitHub](https://img.shields.io/github/issues-raw/ErmanIZTECH/mantar_avi)](https://github.com/ErmanIZTECH/mantar_avi/issues) [![Open pull requests on GitHub](https://img.shields.io/github/issues-pr-raw/ErmanIZTECH/mantar_avi)](https://github.com/ErmanIZTECH/mantar_avi/pulls) [![GitHub contributors](https://img.shields.io/github/contributors/ErmanIZTECH/mantar_avi)](https://github.com/ErmanIZTECH/mantar_avi/graphs/contributors)
 
 
-<div align="center"><span style="font-size: 100px">🍄</span>
+<div align="center">
+<a href="https://github.com/ErmanIZTECH/mantar_avi">
+  <img src="img/mushroom.png" alt="Logo" height="200">
+</a>
 <h3 align="center">MANTAR AVI</h3>
   <p align="center">
     This project aims to create a tool to help finding mushrooms on past weather data
