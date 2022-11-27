@@ -1,3 +1,5 @@
+import sys
+import os
 from bs4 import BeautifulSoup
 from datetime import datetime
 from telegram.ext.callbackcontext import CallbackContext
@@ -6,31 +8,9 @@ from telegram.ext.filters import Filters
 from telegram.ext.messagehandler import MessageHandler
 from telegram.ext.updater import Updater
 from telegram.update import Update
-from uuid import uuid4
 import requests
 
-
-def getcoordinates(coord1, coord2):
-    currentMonth = datetime.now().month
-    currentYear = datetime.now().year
-    page = requests.get(
-        "https://www.meteoblue.com/tr/hava/historyclimate/weatherarchive/"
-        + str(coord1)
-        + "N"
-        + str(coord2)
-        + "E"
-        + "?fcstlength=15&year="
-        + str(currentYear)
-        + "&month="
-        + str(currentMonth)
-    )
-
-    soup = BeautifulSoup(page.text, "html.parser")
-    response = requests.get("https:" + soup.find(id="chart_download").attrs["href"])
-    open("coordinate_image.png", "wb").write(response.content)
-
-
-class last15daysReport:
+def last15daysReport():
     if open("lastupdate.txt", "r").readline() == str(datetime.now().date()):
         print("Images area up to date: " + str(datetime.now().date()))
         pass
@@ -63,94 +43,94 @@ class last15daysReport:
             open("image_" + il + ".png", "wb").write(response.content)
         open("lastupdate.txt", "w").write(str(datetime.now().date()))
 
+def start(update: Update, context: CallbackContext):
+    update.message.reply_text(
+        "Merhaba *man-tar* mantar avlarında kullanılmak üzere yazılmış bir telegram botudur.\n"
+        + "Komuları görmek için /help komutunu kullanın."
+    )
+
+def getcoordinates(coord1, coord2):
+    currentMonth = datetime.now().month
+    currentYear = datetime.now().year
+    page = requests.get(
+        "https://www.meteoblue.com/tr/hava/historyclimate/weatherarchive/"
+        + str(coord1)
+        + "N"
+        + str(coord2)
+        + "E"
+        + "?fcstlength=15&year="
+        + str(currentYear)
+        + "&month="
+        + str(currentMonth)
+    )
+
+    soup = BeautifulSoup(page.text, "html.parser")
+    response = requests.get("https:" + soup.find(id="chart_download").attrs["href"])
+    open("coordinate_image.png", "wb").write(response.content)
+
+def coord(update, context):
+    """Usage: /put value"""
+    # Generate ID and separate value from command
+    # We don't use context.args here, because the value may contain whitespaces
+    value = update.message.text.partition(" ")[2]
+
+    coordN = round(float(value.split()[0][0:7]), 3)
+    coordE = round(float(value.split()[1][0:7]), 3)
+    update.message.reply_text("Kordinatlar alındı: " + str([coordN, coordE] +" Rapor hazırlanıyor."))
+    getcoordinates(coordN, coordE)
+    update.message.reply_photo(photo=open("coordinate_image.png", "rb"))
+
+def location(update, context):
+    user_location = update.message.location
+    lat = round(float(user_location.latitude), 3)
+    lon = round(float(user_location.longitude), 3)
+    update.message.reply_text("Kordinatlar alındı: " + str([lat, lon])+" Rapor hazırlanıyor.")
+    getcoordinates(lat, lon)
+    update.message.reply_photo(photo=open("coordinate_image.png", "rb"))
+
+def help(update: Update, context: CallbackContext):
+    update.message.reply_text(
+        "/start : Genel bilgilendirme mesajını gösterir.\n"
+        + "/help : Komutları listeler.\n"
+        + "15 günlük meteorolojik raporunu almak istediğiniz lokasyonu direkt gönderin.\n"
+        + "/coord verilen koordinatların raporu. [örn: /coord 35.1234 27.2134]\n"
+        + "veya halihazırdaki preset edilmiş lokasyonları aşağıdaki komutla çalıştırın.\n"
+        + "/yamanlar : Yamanlar bölgesi 15 günlük raporu.\n"
+        + "/balcova : Balçova bölgesi 15 günlük raporu.\n"
+        + "/kaynaklar : Kaynaklar bölgesi 15 günlük raporu.\n"
+        + "/kizilcahamam  : Kızılcahamam bölgesi 15 günlük raporu.\n"
+    )
+
+def yamanlar(update: Update, context: CallbackContext):
+    update.message.reply_photo(
+        photo=open("image_Yamanlar.png", "rb"),
+        caption="Yamanlar bölgesi son 15 günün yağış bilgisi",
+    )
+
+def balcova(update: Update, context: CallbackContext):
+    update.message.reply_photo(
+        photo=open("image_Balcova.png", "rb"),
+        caption="Balçova bölgesi son 15 günün yağış bilgisi",
+    )
+
+def kaynaklar(update: Update, context: CallbackContext):
+    update.message.reply_photo(
+        photo=open("image_Kaynaklar.png", "rb"),
+        caption="Kaynaklar bölgesi son 15 günün yağış bilgisi",
+    )
+
+def kizilcahamam(update: Update, context: CallbackContext):
+    update.message.reply_photo(
+        photo=open("image_Kizilcahamam.png", "rb"),
+        caption="Kızılcahamam bölgesi son 15 günün yağış bilgisi",
+    )
+    
 
 if __name__ == "__main__":
+
     api = open("botapi.txt", "r").read()
     updater = Updater(api, use_context=True)
-
-    def start(update: Update, context: CallbackContext):
-        update.message.reply_text(
-            "Merhaba *man-tar* mantar avlarında kullanılmak üzere yazılmış bir telegram botudur.\n"
-            + "Komuları görmek için /help komutunu kullanın."
-        )
-
-    def coord(update, context):
-        """Usage: /put value"""
-        # Generate ID and separate value from command
-        # We don't use context.args here, because the value may contain whitespaces
-        value = update.message.text.partition(" ")[2]
-
-        coordN = round(float(value.split()[0][0:7]), 3)
-        coordE = round(float(value.split()[1][0:7]), 3)
-        update.message.reply_text("Coordinates are: " + str([coordN, coordE]))
-        main.getcoordinates(coordN, coordE)
-        update.message.reply_photo(photo=open("coordinate_image.png", "rb"))
-
-    def put(update, context):
-        """Usage: /put value"""
-        # Generate ID and separate value from command
-        key = str(uuid4())
-        # We don't use context.args here, because the value may contain whitespaces
-        value = update.message.text.partition(" ")[2]
-
-        # Store value
-        context.user_data[key] = value
-        # Send the key to the user
-        update.message.reply_text(key)
-
-    def get(update, context):
-        """Usage: /get uuid"""
-        # Separate ID from command
-        key = context.args[0]
-
-        # Load value and send it to the user
-        value = context.user_data.get(key, "Not found")
-        update.message.reply_text(value)
-
-    def help(update: Update, context: CallbackContext):
-        update.message.reply_text(
-            "/start : Genel bilgilendirme mesajını gösterir.\n"
-            + "/help : Komutları listeler.\n"
-            + "15 günlük meteorolojik raporunu almak istediğiniz lokasyonu direkt gönderin.\n"
-            + "/coord verilen koordinatların raporu. [örn: /coord 35.1234 27.2134]\n"
-            + "veya halihazırdaki preset edilmiş lokasyonları aşağıdaki komutla çalıştırın.\n"
-            + "/yamanlar : Yamanlar bölgesi 15 günlük raporu.\n"
-            + "/balcova : Balçova bölgesi 15 günlük raporu.\n"
-            + "/kaynaklar : Kaynaklar bölgesi 15 günlük raporu.\n"
-            + "/kizilcahamam  : Kızılcahamam bölgesi 15 günlük raporu.\n"
-        )
-
-    def yamanlar(update: Update, context: CallbackContext):
-        update.message.reply_photo(
-            photo=open("image_Yamanlar.png", "rb"),
-            caption="Yamanlar bölgesi son 15 günün yağış bilgisi",
-        )
-
-    def balcova(update: Update, context: CallbackContext):
-        update.message.reply_photo(
-            photo=open("image_Balcova.png", "rb"),
-            caption="Balçova bölgesi son 15 günün yağış bilgisi",
-        )
-
-    def kaynaklar(update: Update, context: CallbackContext):
-        update.message.reply_photo(
-            photo=open("image_Kaynaklar.png", "rb"),
-            caption="Kaynaklar bölgesi son 15 günün yağış bilgisi",
-        )
-
-    def kizilcahamam(update: Update, context: CallbackContext):
-        update.message.reply_photo(
-            photo=open("image_Kizilcahamam.png", "rb"),
-            caption="Kızılcahamam bölgesi son 15 günün yağış bilgisi",
-        )
-
-    def location(update, context):
-        user_location = update.message.location
-        lat = round(float(user_location.latitude), 3)
-        lon = round(float(user_location.longitude), 3)
-        update.message.reply_text("Coordinates are: " + str([lat, lon]))
-        main.getcoordinates(lat, lon)
-        update.message.reply_photo(photo=open("coordinate_image.png", "rb"))
+    last15daysReport()
 
     updater.dispatcher.add_handler(CommandHandler("start", start))
     updater.dispatcher.add_handler(CommandHandler("help", help))
@@ -158,9 +138,8 @@ if __name__ == "__main__":
     updater.dispatcher.add_handler(CommandHandler("balcova", balcova))
     updater.dispatcher.add_handler(CommandHandler("kaynaklar", kaynaklar))
     updater.dispatcher.add_handler(CommandHandler("kizilcahamam", kizilcahamam))
-    updater.dispatcher.add_handler(CommandHandler("put", put))
-    updater.dispatcher.add_handler(CommandHandler("get", get))
     updater.dispatcher.add_handler(CommandHandler("coord", coord))
     updater.dispatcher.add_handler(MessageHandler(Filters.location, location))
 
     updater.start_polling()
+    updater.idle()
