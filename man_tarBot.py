@@ -1,5 +1,3 @@
-import sys
-import os
 from bs4 import BeautifulSoup
 from datetime import datetime
 from telegram.ext.callbackcontext import CallbackContext
