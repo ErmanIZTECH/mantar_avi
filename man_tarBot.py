@@ -8,6 +8,7 @@ from telegram.ext.updater import Updater
 from telegram.update import Update
 import requests
 
+
 def last15daysReport():
     if open("lastupdate.txt", "r").readline() == str(datetime.now().date()):
         print("Images area up to date: " + str(datetime.now().date()))
@@ -41,11 +42,13 @@ def last15daysReport():
             open("image_" + il + ".png", "wb").write(response.content)
         open("lastupdate.txt", "w").write(str(datetime.now().date()))
 
+
 def start(update: Update, context: CallbackContext):
     update.message.reply_text(
         "Merhaba *man-tar* mantar avlarında kullanılmak üzere yazılmış bir telegram botudur.\n"
         + "Komuları görmek için /help komutunu kullanın."
     )
+
 
 def getcoordinates(coord1, coord2):
     currentMonth = datetime.now().month
@@ -66,6 +69,7 @@ def getcoordinates(coord1, coord2):
     response = requests.get("https:" + soup.find(id="chart_download").attrs["href"])
     open("coordinate_image.png", "wb").write(response.content)
 
+
 def coord(update, context):
     """Usage: /put value"""
     # Generate ID and separate value from command
@@ -74,17 +78,23 @@ def coord(update, context):
 
     coordN = round(float(value.split()[0][0:7]), 3)
     coordE = round(float(value.split()[1][0:7]), 3)
-    update.message.reply_text("Kordinatlar alındı: " + str([coordN, coordE] +" Rapor hazırlanıyor."))
+    update.message.reply_text(
+        "Kordinatlar alındı: " + str([coordN, coordE] + " Rapor hazırlanıyor.")
+    )
     getcoordinates(coordN, coordE)
     update.message.reply_photo(photo=open("coordinate_image.png", "rb"))
+
 
 def location(update, context):
     user_location = update.message.location
     lat = round(float(user_location.latitude), 3)
     lon = round(float(user_location.longitude), 3)
-    update.message.reply_text("Kordinatlar alındı: " + str([lat, lon])+" Rapor hazırlanıyor.")
+    update.message.reply_text(
+        "Kordinatlar alındı: " + str([lat, lon]) + " Rapor hazırlanıyor."
+    )
     getcoordinates(lat, lon)
     update.message.reply_photo(photo=open("coordinate_image.png", "rb"))
+
 
 def help(update: Update, context: CallbackContext):
     update.message.reply_text(
@@ -99,11 +109,13 @@ def help(update: Update, context: CallbackContext):
         + "/kizilcahamam  : Kızılcahamam bölgesi 15 günlük raporu.\n"
     )
 
+
 def yamanlar(update: Update, context: CallbackContext):
     update.message.reply_photo(
         photo=open("image_Yamanlar.png", "rb"),
         caption="Yamanlar bölgesi son 15 günün yağış bilgisi",
     )
+
 
 def balcova(update: Update, context: CallbackContext):
     update.message.reply_photo(
@@ -111,18 +123,20 @@ def balcova(update: Update, context: CallbackContext):
         caption="Balçova bölgesi son 15 günün yağış bilgisi",
     )
 
+
 def kaynaklar(update: Update, context: CallbackContext):
     update.message.reply_photo(
         photo=open("image_Kaynaklar.png", "rb"),
         caption="Kaynaklar bölgesi son 15 günün yağış bilgisi",
     )
 
+
 def kizilcahamam(update: Update, context: CallbackContext):
     update.message.reply_photo(
         photo=open("image_Kizilcahamam.png", "rb"),
         caption="Kızılcahamam bölgesi son 15 günün yağış bilgisi",
     )
-    
+
 
 if __name__ == "__main__":
 
