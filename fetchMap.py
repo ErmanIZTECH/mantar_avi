@@ -1,9 +1,6 @@
-import os
 import requests
 from PIL import Image
 from io import BytesIO
-import numpy as np
-from npy_append_array import NpyAppendArray
 
 base = "https://cbs.ogm.gov.tr/arcgis/rest/services/YAYIN/ARAZI_ORTUSU/MapServer/tile/"
 layer = 16
