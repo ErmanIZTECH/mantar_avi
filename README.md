@@ -7,7 +7,7 @@
 </a>
 <h3 align="center">MANTAR AVI</h3>
   <p align="center">
-    This project aims to create a tool to help finding mushrooms on past weather data
+    This project aims to create a tool to help finding mushrooms relying on the past weather data.
     <br />
     <a href="https://github.com/ErmanIZTECH/mantar_avi"><strong>Explore the docs »</strong></a>
     <br />
