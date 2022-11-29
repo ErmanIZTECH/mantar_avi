@@ -139,8 +139,7 @@ def kizilcahamam(update: Update, context: CallbackContext):
 
 
 if __name__ == "__main__":
-
-    api = open("botapi.txt", "r").read()
+    api = open("botapi.txt", "r").readline().rstrip()
     updater = Updater(api, use_context=True)
     last15daysReport()
 
