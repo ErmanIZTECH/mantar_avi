@@ -1,3 +1,4 @@
+import os 
 from bs4 import BeautifulSoup
 from datetime import datetime
 from telegram.ext.callbackcontext import CallbackContext
@@ -70,7 +71,7 @@ def getcoordinates(coord1, coord2):
     open("coordinate_image.png", "wb").write(response.content)
 
 
-def coord(update, context):
+def coord(update: Update, context: CallbackContext):
     """Usage: /put value"""
     # Generate ID and separate value from command
     # We don't use context.args here, because the value may contain whitespaces
@@ -85,7 +86,7 @@ def coord(update, context):
     update.message.reply_photo(photo=open("coordinate_image.png", "rb"))
 
 
-def location(update, context):
+def location(update: Update, context: CallbackContext):
     user_location = update.message.location
     lat = round(float(user_location.latitude), 3)
     lon = round(float(user_location.longitude), 3)
