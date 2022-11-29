@@ -8,7 +8,7 @@ from telegram.ext.filters import Filters
 import main
 
 if __name__ == "__main__":
-    api = open("botapi.txt", "r").read()
+    api = open("botapi.txt", "r").readline().rstrip()
     updater = Updater(api, use_context=True)
 
     def start(update: Update, context: CallbackContext):
