@@ -1,4 +1,4 @@
-import os 
+import os
 from bs4 import BeautifulSoup
 from datetime import datetime
 from telegram.ext.callbackcontext import CallbackContext
@@ -68,9 +68,9 @@ def getcoordinates(coord1, coord2):
 
     soup = BeautifulSoup(page.text, "html.parser")
     response = requests.get("https:" + soup.find(id="chart_download").attrs["href"])
-    if response.ok == True :
+    if response.ok == True:
         open("coordinate_image.png", "wb").write(response.content)
-    elif response.ok == False :
+    elif response.ok == False:
         response = requests.get("https:" + soup.find(id="blooimage").attrs["data-href"])
         open("coordinate_image.png", "wb").write(response.content)
 
